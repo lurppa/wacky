@@ -36,7 +36,7 @@ fn main() {
     }
 
     ffmpeg::explode_video(input_file, temp_dir.clone(),
-        if resolution == "" {
+        if resolution.is_empty() {
             None
         } else {
             Some(resolution)

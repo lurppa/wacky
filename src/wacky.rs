@@ -35,7 +35,8 @@ pub fn wacky(image_dir: String, filter: fn(filters::Point) -> f32, buffer_size: 
                     buffer_index = (filter_value * (buffer.len() - 2) as f32) as usize + 1
                 }
 
-                let pixel = buffer.get(buffer.len() - buffer_index).unwrap().get_pixel(x, y);
+                let pixel = buffer.get(buffer.len() - buffer_index).unwrap()
+                        .get_pixel(x, y);
                 new_frame.put_pixel(x, y, pixel);
             }
         }

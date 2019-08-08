@@ -34,6 +34,6 @@ pub fn default(point: Point) -> f32 {
 
 pub fn radial(point: Point) -> f32 {
     let center = Point {x: 0.5, y: 0.5};
-    let distance = {{point.x - center.x}.powi(2) + {point.y - center.y}.powi(2)}.sqrt();
+    let distance = {{point.x - center.x}.powi(2) + {point.y - center.y}.powi(2)}.sqrt() / {2 as f32}.sqrt();
     distance
 }
