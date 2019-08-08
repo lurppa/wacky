@@ -1,7 +1,6 @@
 use std::process::Command;
 use std::fs;
 
-
 pub fn dir_format(dir: &mut String) {
     if let Some(character) = dir.get((dir.len() - 1)..){
         if character != "/" {
@@ -10,18 +9,18 @@ pub fn dir_format(dir: &mut String) {
     }
 }
 
-pub fn explode_video(source: String, dest_dir: String, resolution: Option<(i16, i16)>) {
+pub fn explode_video(source: String, dest_dir: String, resolution: Option<String>) {
     fs::create_dir_all(&dest_dir)
             .expect("failed to create destination directory");
     
     let mut resolution_command: Vec<String> = Vec::new();
-    if let Some((width, height)) = resolution {
+    if let Some(resolution_string) = resolution {
         resolution_command.push(String::from("-vf"));
-        let formatted_scale = format!("scale={}:{}", width, height);
-        resolution_command.push(formatted_scale);
+        resolution_command.push(resolution_string);
     }
 
     Command::new("ffmpeg")
+            .arg("-y")
             .arg("-i")
             .arg(source)
             .args(resolution_command)
@@ -32,6 +31,7 @@ pub fn explode_video(source: String, dest_dir: String, resolution: Option<(i16, 
 
 pub fn construct_video(source_dir: String, output: String) {
     Command::new("ffmpeg")
+            .arg("-y")
             .arg("-i")
             .arg(format!("{}output_%04d.png", source_dir))
             .arg(output)

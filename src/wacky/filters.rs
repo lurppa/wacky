@@ -3,6 +3,31 @@ pub struct Point {
     pub y: f32,
 }
 
+struct NamedFilter {
+    pub function: fn(Point) -> f32,
+    pub name: String,
+}
+
+pub fn get_filter(name: &str) -> fn(Point) -> f32 {
+    let named_filters = [
+        NamedFilter {
+            name: String::from("default"),
+            function: default,
+        },
+        NamedFilter {
+            name: String::from("radial"),
+            function: radial,
+        }
+    ];
+
+    for filter in named_filters.iter() {
+        if filter.name == name {
+            return filter.function;
+        }
+    };
+    default
+}
+
 pub fn default(point: Point) -> f32 {
     (point.x + point.y) / 2.0
 }
