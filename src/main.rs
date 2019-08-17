@@ -1,10 +1,11 @@
 extern crate image;
 extern crate argparse;
 
-use argparse::{ArgumentParser, StoreTrue, Store};
-
 mod ffmpeg;
 mod wacky;
+
+use argparse::{ArgumentParser, StoreTrue, Store};
+use wacky::Wacky;
 
 fn main() {
     let mut input_file = String::default();
@@ -42,7 +43,14 @@ fn main() {
             Some(resolution)
         }
     );
-    wacky::wacky(temp_dir.clone(), wacky::filters::get_filter(&filter), buffer_size);
+
+    Wacky::new()
+        .set_image_dir(temp_dir.clone())
+        .set_filter(filter.clone())
+        .set_buffer_size(buffer_size)
+        .set_verbose(verbose)
+        .process();
+
     ffmpeg::construct_video(temp_dir.clone(), output_file);
     ffmpeg::clean(temp_dir);
 }
